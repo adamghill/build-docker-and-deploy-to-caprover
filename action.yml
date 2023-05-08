@@ -1,0 +1,75 @@
+name: build-docker-and-deploy-to-caprover
+description: Build a Docker image, cache the resulting layers, and push it to a CapRover application.
+
+branding:
+  icon: "cloud-lightning"
+  color: "blue"
+
+on:
+  push:
+    branches: ["main"]
+
+inputs:
+  caprover-app-name:
+    description: "The name of the CapRover application"
+    required: true
+  github-token:
+    description: "The GitHub personal access token"
+    required: true
+  caprover-server-url:
+    description: "The CapRover server URL"
+    required: true
+  caprover-app-token:
+    description: "The CapRover app token"
+    required: true
+  branch-name:
+    description: "The name of the branch to deploy"
+    required: false
+    default: ${{ github.ref_name || github.head_ref }}
+  docker-file-name:
+    description: "The name of the Docker file to build"
+    required: false
+    default: ./Dockerfile
+  docker-registry:
+    description: "The URL of the Docker registry"
+    required: false
+    default: ghcr.io
+
+runs:
+  using: composite
+
+  steps:
+    - name: Checkout repository
+      uses: actions/checkout@v3
+
+    - name: Set up Docker Buildx
+      uses: docker/setup-buildx-action@v2
+
+    - name: Log in to the Container registry
+      uses: docker/login-action@v2
+      with:
+        registry: ${{ inputs.docker-registry }}
+        username: ${{ github.actor }}
+        password: ${{ inputs.github-token }}
+
+    - name: Extract metadata (tags, labels) for Docker
+      id: meta
+      uses: docker/metadata-action@v4
+      with:
+        images: ${{ inputs.docker-registry }}/${{ github.repository }}
+
+    - name: Build and push Docker image
+      uses: docker/build-push-action@v4
+      with:
+        push: true
+        context: .
+        file: ${{ inputs.docker-file-name }}
+        tags: ${{ steps.meta.outputs.tags }}
+        labels: ${{ steps.meta.outputs.labels }}
+        cache-from: type=gha
+        cache-to: type=gha,mode=max
+
+    - name: Deploy image to CapRover
+      run: |
+        docker run caprover/cli-caprover:latest caprover deploy --host ${{ inputs.caprover-server-url }} --appToken ${{ inputs.caprover-app-token }} --appName ${{ inputs.caprover-app-name }} --imageName ${{ inputs.docker-registry }}/${{ github.repository }}:${{ inputs.branch-name }}
+      shell: bash

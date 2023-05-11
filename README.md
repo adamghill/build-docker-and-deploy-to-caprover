@@ -1,6 +1,8 @@
 # build-docker-and-deploy-to-caprover
 
-This is a GitHub Action which builds a Docker image and deploys it to a `CapRover` application. Step by step instructions for how to setup `CapRover` are at https://alldjango.com/articles/serve-multiple-django-sites-from-one-cloud-server.
+This is a GitHub Action which builds a Docker image and deploys it to a `CapRover` application. `CapRover` is a free and open source PaaS (platform as a service) that you can run on your cloud server. I use it on a [DigitalOcean](https://m.do.co/c/617d629f56c0) droplet and it works great for hosting multiple sites cheaply. Step by step instructions for how to setup `CapRover` are at https://alldjango.com/articles/serve-multiple-django-sites-from-one-cloud-server.
+
+[![DigitalOcean Referral Badge](https://web-platforms.sfo2.digitaloceanspaces.com/WWW/Badge%203.svg)](https://www.digitalocean.com/?refcode=617d629f56c0&utm_campaign=Referral_Invite&utm_medium=Referral_Program&utm_source=badge)
 
 ## Install
 

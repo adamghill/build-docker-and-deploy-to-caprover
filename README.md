@@ -28,33 +28,12 @@ on:
     branches:
       - main
 
-env:
-  REGISTRY: ghcr.io
-  IMAGE_NAME: ${{ github.repository }}
-
 jobs:
   deploy-to-caprover:
     name: Deploy to CapRover
     runs-on: ubuntu-latest
 
-    # Ensure the correct permissions are granted
-    permissions:
-      contents: read
-      packages: write
-
     steps:
-      - name: Checkout repository
-        uses: actions/checkout@v4
-
-      # Ensure that the repository package registry is set up
-      # From: https://docs.github.com/en/packages/managing-github-packages-using-github-actions-workflows/publishing-and-installing-a-package-with-github-actions#publishing-a-package-using-an-action
-      - name: Log in to the Container registry
-        uses: docker/login-action@65b78e6e13532edd9afa3aa52ac7964289d1a9c1
-        with:
-          registry: ${{ env.REGISTRY }}
-          username: ${{ github.actor }}
-          password: ${{ secrets.GITHUB_TOKEN }}
-
       - uses: adamghill/build-docker-and-deploy-to-caprover@v1
         with:
           github-token: ${{ secrets.GITHUB_TOKEN }}
@@ -71,7 +50,7 @@ These are all of the inputs that are available for the `build-docker-and-deploy-
 
 ### github-token
 
-The GitHub personal access token. Required, but will be set by the GitHub action automatically.
+The GitHub personal access token. Required. Set by the GitHub action automatically.
 
 ### caprover-app-name
 
@@ -87,12 +66,8 @@ The CapRover app token. Required.
 
 ### branch-name
 
-The name of the branch to build and deploy. Optional and defaults to the current branch.
+The name of the branch to build and deploy. Optional. Defaults to the current branch.
 
 ### docker-file-name
 
-The name of the Docker file to build. Optional and defaults to "./Dockerfile".
-
-### docker-registry
-
-The URL of the Docker registry. Optional and defaults to "ghcr.io".
+The name of the Docker file to build. Optional. Defaults to "./Dockerfile".

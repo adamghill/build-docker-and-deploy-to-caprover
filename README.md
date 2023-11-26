@@ -33,8 +33,12 @@ jobs:
     name: Deploy to CapRover
     runs-on: ubuntu-latest
 
+    permissions:
+      contents: read
+      packages: write
+
     steps:
-      - uses: adamghill/build-docker-and-deploy-to-caprover@v1
+      - uses: adamghill/build-docker-and-deploy-to-caprover@v2.3.0
         with:
           github-token: ${{ secrets.GITHUB_TOKEN }}
           caprover-app-name: YOUR-APP-NAME

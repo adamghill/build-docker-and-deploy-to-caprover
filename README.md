@@ -38,7 +38,7 @@ jobs:
       packages: write
 
     steps:
-      - uses: adamghill/build-docker-and-deploy-to-caprover@v2.3.0
+      - uses: adamghill/build-docker-and-deploy-to-caprover@2.3.0
         with:
           github-token: ${{ secrets.GITHUB_TOKEN }}
           caprover-app-name: YOUR-APP-NAME

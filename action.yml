@@ -10,11 +10,11 @@ on:
     branches: ["main"]
 
 inputs:
-  caprover-app-name:
-    description: "The name of the CapRover application"
-    required: true
   github-token:
     description: "The GitHub personal access token"
+    required: true
+  caprover-app-name:
+    description: "The name of the CapRover application"
     required: true
   caprover-server-url:
     description: "The CapRover server URL"
@@ -30,25 +30,25 @@ inputs:
     description: "The name of the Docker file to build"
     required: false
     default: ./Dockerfile
-  docker-registry:
-    description: "The URL of the Docker registry"
-    required: false
-    default: ghcr.io
 
 runs:
   using: composite
 
+  permissions:
+    contents: read
+    packages: write
+
   steps:
     - name: Checkout repository
-      uses: actions/checkout@v3
+      uses: actions/checkout@v4
 
     - name: Set up Docker Buildx
       uses: docker/setup-buildx-action@v2
 
     - name: Log in to the Container registry
-      uses: docker/login-action@v2
+      uses: docker/login-action@v3
       with:
-        registry: ${{ inputs.docker-registry }}
+        registry: ${{ env.REGISTRY }}
         username: ${{ github.actor }}
         password: ${{ inputs.github-token }}
 

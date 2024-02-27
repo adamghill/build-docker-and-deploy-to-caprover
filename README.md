@@ -46,7 +46,7 @@ jobs:
           caprover-app-token: ${{ secrets.CAPROVER_APP_TOKEN }}
 ```
 6. Click *Commit changes...*
-7. Click the *Actions` sub-navigation to see the workflow run
+7. Click the *Actions* sub-navigation to see the workflow run
 
 ## Inputs
 
@@ -75,3 +75,7 @@ The name of the branch to build and deploy. Optional. Defaults to the current br
 ### docker-file-name
 
 The name of the Docker file to build. Optional. Defaults to "./Dockerfile".
+
+### registry
+
+The name of the registry. Optional. Defaults to "ghcr.io".

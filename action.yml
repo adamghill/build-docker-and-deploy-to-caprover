@@ -31,6 +31,10 @@ inputs:
     description: "The name of the Docker file to build"
     required: false
     default: ./Dockerfile
+  registry:
+    description: "The name of the registry"
+    required: false
+    default: ghcr.io
 
 runs:
   using: composite
@@ -45,7 +49,7 @@ runs:
     - name: Log in to the Container registry
       uses: docker/login-action@v3
       with:
-        registry: ${{ env.REGISTRY }}
+        registry: ${{ inputs.registry }}
         username: ${{ github.actor }}
         password: ${{ inputs.github-token }}
 
@@ -53,7 +57,7 @@ runs:
       id: meta
       uses: docker/metadata-action@v5.0.0
       with:
-        images: ${{ env.REGISTRY }}/${{ github.repository }}-${{ inputs.caprover-app-name }}
+        images: ${{ inputs.registry }}/${{ github.repository }}-${{ inputs.caprover-app-name }}
 
     - name: Build and push Docker image
       uses: docker/build-push-action@v5.1.0
@@ -68,5 +72,5 @@ runs:
 
     - name: Deploy image to CapRover
       run: |
-        docker run caprover/cli-caprover:latest caprover deploy --host ${{ inputs.caprover-server-url }} --appToken ${{ inputs.caprover-app-token }} --appName ${{ inputs.caprover-app-name }} --imageName ${{ env.REGISTRY }}/${{ github.repository }}-${{ inputs.caprover-app-name }}:${{ inputs.branch-name }}
+        docker run caprover/cli-caprover:latest caprover deploy --host ${{ inputs.caprover-server-url }} --appToken ${{ inputs.caprover-app-token }} --appName ${{ inputs.caprover-app-name }} --imageName ${{ inputs.registry }}/${{ github.repository }}-${{ inputs.caprover-app-name }}:${{ inputs.branch-name }}
       shell: bash

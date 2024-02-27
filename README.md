@@ -25,8 +25,8 @@ This is optional, but it is best practice so that secrets are not in plain text.
 ```yaml
 on:
   push:
-    branches:
-      - main
+    branches: ["main"]
+  workflow_dispatch:
 
 jobs:
   deploy-to-caprover:

@@ -68,6 +68,10 @@ The CapRover server URL. Required.
 
 The CapRover app token. Required.
 
+### image-name:
+
+The name of the docker image to build. Optional. Defaults to "github-repository/caprover-app-name"
+
 ### branch-name
 
 The name of the branch to build and deploy. Optional. Defaults to the current branch.

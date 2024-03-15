@@ -70,7 +70,15 @@ The CapRover app token. Required.
 
 ### image-name:
 
-The name of the docker image to build. Optional. Defaults to "github-repository/caprover-app-name"
+The name of the docker image to build. Optional. Defaults to "github-repository/caprover-app-name".
+
+To ensure the default image name is valid, the values of both the `github-repository` and `caprover-app-name` are slugified using the shell command below:
+```shell
+echo value | sed -e 's/[^[:alnum:]]/-/g' | tr -s '-' | tr A-Z a-z
+```
+- `sed -e 's/[^[:alnum:]]/-/g'`: This replaces any character that is not a letter or a number with a dash.
+- `tr -s '-'`: This replaces multiple consecutive dashes with a single dash.
+- `tr A-Z a-z`: This converts all uppercase letters to lowercase.
 
 ### branch-name
 

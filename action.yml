@@ -26,7 +26,7 @@ inputs:
   image-name:
     description: "The name of the docker image to build"
     required: false
-    default: ${{ github.repository }}-${{ inputs.caprover-app-name }}
+    default: ${{ echo github.repository | sed -e 's/[^[:alnum:]]/-/g' | tr -s '-' | tr A-Z a-z }}-${{ echo inputs.caprover-app-name | sed -e 's/[^[:alnum:]]/-/g' | tr -s '-' | tr A-Z a-z}}
   branch-name:
     description: "The name of the branch to deploy"
     required: false

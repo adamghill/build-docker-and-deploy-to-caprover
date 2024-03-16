@@ -70,12 +70,14 @@ The CapRover app token. Required.
 
 ### image-name:
 
-The name of the docker image to build. Optional. Defaults to "github-repository/caprover-app-name".
+The name of the docker image to build. Optional. Defaults to "{github.repository}-{inputs.caprover-app-name}".
 
-To ensure the default image name is valid, the values of both the `github-repository` and `caprover-app-name` are slugified using the shell command below:
+To ensure the default image name is valid, the values of `github.repository` and `inputs.caprover-app-name` are slugified using the following shell command:
+
 ```shell
 echo value | sed -e 's/[^[:alnum:]]/-/g' | tr -s '-' | tr A-Z a-z
 ```
+
 - `sed -e 's/[^[:alnum:]]/-/g'`: This replaces any character that is not a letter or a number with a dash.
 - `tr -s '-'`: This replaces multiple consecutive dashes with a single dash.
 - `tr A-Z a-z`: This converts all uppercase letters to lowercase.
@@ -91,7 +93,6 @@ The name of the Docker file to build. Optional. Defaults to "./Dockerfile".
 ### registry
 
 The name of the registry. Optional. Defaults to "ghcr.io".
-
 
 ## Tips
 

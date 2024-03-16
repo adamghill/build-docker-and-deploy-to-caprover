@@ -44,12 +44,13 @@ runs:
 
   steps:
     - name: "Get image-name"
+      env:
+        IMAGE_NAME: ${{ github.repository }}-${{ inputs.caprover-app-name }}
+
       if: ${{ inputs.image-name != '' }}
       env:
         IMAGE_NAME: ${{ inputs.image_name }}
-      if: ${{ env.IMAGE_NAME == '' }}
-      env:
-        IMAGE_NAME: ${{ github.repository }}-${{ inputs.caprover-app-name }}
+      
     - name: Slugify image-name
       shell: bash
       run: echo "IMAGE_NAME_SLUG=$(echo $IMAGE_NAME | sed -e 's/[^[:alnum:]]/-/g' | tr -s '-' | tr A-Z a-z)" >> $GITHUB_ENV

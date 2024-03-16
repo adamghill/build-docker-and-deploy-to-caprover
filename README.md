@@ -79,3 +79,13 @@ The name of the Docker file to build. Optional. Defaults to "./Dockerfile".
 ### registry
 
 The name of the registry. Optional. Defaults to "ghcr.io".
+
+
+## Tips
+
+If you encounter an error suggesting that the runner is low on resources while building the docker image, you can add the step below to free up space on the host machine:
+
+```yaml
+- name: Delete unnecessary large tools folder
+  run: rm -rf /opt/hostedtoolcache
+```

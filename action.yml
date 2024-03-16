@@ -47,7 +47,7 @@ runs:
       if: ${{ inputs.image-name != '' }}
       env:
         IMAGE_NAME: ${{ inputs.image_name }}
-      else:
+      if: ${{ env.IMAGE_NAME == '' }}
       env:
         IMAGE_NAME: ${{ github.repository }}-${{ inputs.caprover-app-name }}
     - name: Slugify image-name

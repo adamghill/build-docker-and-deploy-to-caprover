@@ -43,18 +43,16 @@ runs:
   using: composite
 
   steps:
-    - name: Set the slugified image name in env
+    - name: "Get image-name"
+      if: ${{ inputs.image-name != '' }}
+      env:
+        IMAGE_NAME: ${{ inputs.image_name }}
+      else:
+      env:
+        IMAGE_NAME: ${{ github.repository }}-${{ inputs.caprover-app-name }}
+    - name: Slugify image-name
       shell: bash
-      steps:
-        - name: "Get image-name"
-          if: ${{ inputs.image-name != '' }}
-          env:
-            IMAGE_NAME: ${{ inputs.image_name }}
-          else:
-          env:
-            IMAGE_NAME: ${{ github.repository }}-${{ inputs.caprover-app-name }}
-        - name: Slugify image-name
-        - run: echo "IMAGE_NAME_SLUG=$(echo $IMAGE_NAME | sed -e 's/[^[:alnum:]]/-/g' | tr -s '-' | tr A-Z a-z)" >> $GITHUB_ENV
+      run: echo "IMAGE_NAME_SLUG=$(echo $IMAGE_NAME | sed -e 's/[^[:alnum:]]/-/g' | tr -s '-' | tr A-Z a-z)" >> $GITHUB_ENV
 
     - name: Checkout repository
       uses: actions/checkout@v4.1.1

@@ -51,7 +51,7 @@ runs:
         if [ -z $IMAGE_NAME ]; then
           IMAGE_NAME=${{ github.repository }}
         fi
-        echo "IMAGE_NAME_SLUG=$(echo $IMAGE_NAME | sed -e 's/[^[:alnum:]]/-/g' | tr -s '-' | tr A-Z a-z)" >> $GITHUB_ENV
+        echo "IMAGE_NAME_SLUG=$(echo $IMAGE_NAME | sed -e 's/[^[:alnum:]/]/-/g' | tr -s '-' | tr A-Z a-z)" >> $GITHUB_ENV
 
     - name: Checkout repository
       uses: actions/checkout@v4.1.1

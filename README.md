@@ -96,9 +96,24 @@ The name of the registry. Optional. Defaults to "ghcr.io".
 
 ## Tips
 
+### Low resources on github runner
+
 If you encounter an error suggesting that the runner is low on resources while building the docker image, you can add the step below to free up space on the host machine:
 
 ```yaml
 - name: Delete unnecessary large tools folder
   run: rm -rf /opt/hostedtoolcache
 ```
+
+### Unauthorized Error Message on CapRover
+
+If you are using this action on a private repository, the image/package built will automatically be private as well. As a result, you may see an `unauthorized` error message when CapRover tries to pull the image.
+
+To resolve this issue, you must configure your CapRover instance to access the GitHub registry with the appropriate credentials. Navigate to the `Cluster` section in the left sidebar. Here, you'll find an `Add a Remote Registry` button. Click this button and complete the form:
+
+- `Username`: Your GitHub username
+- `Password`: Generate a [classic GitHub token](https://github.com/settings/tokens/new) with the `read:packages` scope. This is the only required scope for it to work.
+- `Domain`: ghcr.io
+- `Image Prefix`: Leave this blank 
+
+After saving the form, you should be good to go. Your CapRover instance can now read all private (and public) packages (docker images) on your GitHub account.

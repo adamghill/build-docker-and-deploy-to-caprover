@@ -70,9 +70,9 @@ The CapRover app token. Required.
 
 ### image-name:
 
-The name of the docker image to build. Optional. Defaults to "{github.repository}-{inputs.caprover-app-name}".
+The name of the docker image to build. Optional. Defaults to "github.repository" which is equivalent to `username/repo_name`.
 
-To ensure the default image name is valid, the values of `github.repository` and `inputs.caprover-app-name` are slugified using the following shell command:
+To ensure the default image name is valid, the values of `github.repository` is slugified using the following shell command:
 
 ```shell
 echo value | sed -e 's/[^[:alnum:]]/-/g' | tr -s '-' | tr A-Z a-z
@@ -109,7 +109,7 @@ If you encounter an error suggesting that the runner is low on resources while b
 
 If you are using this action on a private repository, the image/package built will automatically be private as well. As a result, you may see an `unauthorized` error message when `CapRover` tries to pull the image.
 
-To resolve this issue, you must configure your `CapRover` instance to access the GitHub registry with the appropriate credentials. Navigate to the *Cluster* section in the left sidebar in your `CapRover` admin site. Here, find an *Add a Remote Registry* button. Click this button and update the form:
+To resolve this issue, you must configure your `CapRover` instance to access the GitHub registry with the appropriate credentials. Navigate to the *Cluster* section in the left sidebar in your `CapRover` admin site. Here, find an *Add a Remote Registry* button. Click this button and fill the form:
 
 - *Username*: Your GitHub username
 - *Password*: Generate a [classic GitHub token](https://github.com/settings/tokens/new) with the `read:packages` scope; this is the only required scope for it to work
